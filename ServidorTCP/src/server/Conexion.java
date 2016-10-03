@@ -30,6 +30,7 @@ public class Conexion implements Runnable, Protocolo {
 
 		if (mSocket != null) {
 			try {
+                           
 				// Conexi�n con la entrada y salida del socket
 				DataOutputStream outputStream = new DataOutputStream(mSocket.getOutputStream());
 				BufferedReader inputStream = new BufferedReader(new InputStreamReader(mSocket.getInputStream()));
@@ -39,6 +40,26 @@ public class Conexion implements Runnable, Protocolo {
 				outputStream.write(outputData.getBytes());
 				outputStream.flush();
 
+                                new Thread(new Runnable(){
+                                public void run(){
+                                    int n=0;
+                                    while(!mSocket.isClosed()){
+                                            try {
+                                                Thread.sleep(10000);
+                                                System.out.println("Enviando NOOP "+n);
+                                                String data = "NOOP "+ n+ CRLF;
+                                                n++;
+                                                outputStream.write(data.getBytes());
+                                                outputStream.flush();
+                                            } catch (InterruptedException ex) {
+                                                ex.printStackTrace();
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    }
+                                
+                            }).start();
 				while ((inputData = inputStream.readLine()) != null && !salir) {
 					System.out.println("SERVIDOR [Recibido]> " + inputData);
 					String fields[] = inputData.split(" ");
