@@ -13,34 +13,35 @@ public class Servidor implements Protocolo{
 		System.out.println("SERVIDOR> Iniciando servidor");
 		try {
 			mConexiones=0;
-			//InetAddress local = InetAddress.getLocalHost();
+			InetAddress local = InetAddress.getLocalHost();
 			//InetAddress[] direcciones = InetAddress.getAllByName(local.getCanonicalHostName());
 			
-			//mServidor = new ServerSocket(TCP_SERVICE_PORT,20,local);// Se crea el socket
+			mServidor = new ServerSocket(TCP_SERVICE_PORT,20,local);// Se crea el socket
 														// servidor, equivale a
 														// socket(), bind() y listen()
-			mServidor = new ServerSocket(TCP_SERVICE_PORT);// Se crea el socket
-			// servidor, equivale a
+			//mServidor = new ServerSocket(TCP_SERVICE_PORT);// Se crea el socket
+                        
+			System.out.println("SERVIDOR> Esperando en: "+mServidor.getInetAddress().toString());
 			// socket(), bind() y listen()
 		} catch (IOException e) {// Control de error
 			System.err.println("SERVIDOR ERROR> " + e.getMessage());
-			return;//Si la creación del servidor falla se cierra
+			return;//Si la creaciï¿½n del servidor falla se cierra
 		}
 		while (true) {// Bucle infinito para emular el servicio
 			Socket nuevaConexion;
 			try {
 				nuevaConexion = mServidor.accept();// Se acepta una nueva
-				// conexión entrante
-				System.out.println("SERVIDOR> Conexión entrante desde " + nuevaConexion.getInetAddress().toString() + ":"
+				// conexiï¿½n entrante
+				System.out.println("SERVIDOR> Conexiï¿½n entrante desde " + nuevaConexion.getInetAddress().toString() + ":"
 						+ nuevaConexion.getPort());
 				//Conexion con = new Conexion(nuevaConexion);
 				//Thread servicio = new Thread(con);
 				//servicio.start();
 				new Thread(new Conexion(nuevaConexion)).start();// La nueva
-																// conexión se
+																// conexiï¿½n se
 																// pasa a una
 																// nueva hebra
-			} catch (IOException e) {// Excepción al aceptar la conexión
+			} catch (IOException e) {// Excepciï¿½n al aceptar la conexiï¿½n
 				System.err.println("SERVIDOR ERROR> " + e.getMessage());
 			}
 
