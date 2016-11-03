@@ -17,7 +17,7 @@ public class Autentica implements Runnable, Protocolo {
 
 	Socket mSocket;
 	public static final String MSG_WELCOME = "Bienvenido al servidor de pruebas";
-	public static final String MSG_QUIT = "�Adios, hasta la vista!";
+	public static final String MSG_QUIT = "Adios, hasta la vista!";
 	public static final String MSG_ERRORAUT = "Usuario o clave incorrectos";
 
 	public Autentica(Socket s) {
