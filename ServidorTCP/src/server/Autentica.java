@@ -6,19 +6,17 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 import java.net.SocketException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-/**
- * Para emplear sin el comportamiento de SESSION-ID
- * @author Juan Carlos
- */
-public class Conexion implements Runnable, Protocolo {
+public class Autentica implements Runnable, Protocolo {
 
 	Socket mSocket;
 	public static final String MSG_WELCOME = "Bienvenido al servidor de pruebas";
-	public static final String MSG_QUIT = "�Adios, hasta la vista!";
+	public static final String MSG_QUIT = "Adios, hasta la vista!";
 	public static final String MSG_ERRORAUT = "Usuario o clave incorrectos";
 
-	public Conexion(Socket s) {
+	public Autentica(Socket s) {
 		mSocket = s;
 	}
 
@@ -44,26 +42,6 @@ public class Conexion implements Runnable, Protocolo {
 				outputStream.write(outputData.getBytes());
 				outputStream.flush();
 
-//                                new Thread(new Runnable(){
-//                                public void run(){
-//                                    int n=0;
-//                                    while(!mSocket.isClosed()){
-//                                            try {
-//                                                Thread.sleep(5000);
-//                                                System.out.println("Enviando NOOP "+n);
-//                                                String data = "NOOP "+ n+ CRLF;
-//                                                n++;
-//                                                outputStream.write(data.getBytes());
-//                                                outputStream.flush();
-//                                            } catch (InterruptedException ex) {
-//                                                ex.printStackTrace();
-//                                            } catch (IOException e) {
-//                                                e.printStackTrace();
-//                                            }
-//                                        }
-//                                    }
-//                                
-//                            }).start();
 				while ((inputData = inputStream.readLine()) != null && !salir) {
 					System.out.println("SERVIDOR [Recibido]> " + inputData);
 					String fields[] = inputData.split(" ");
@@ -89,15 +67,8 @@ public class Conexion implements Runnable, Protocolo {
 					switch (estado) {
 					case S_USER:// Estado USER
 						if (comando.equalsIgnoreCase(QUIT)) {// En todos los
-																// estados, si
-																// el
-																// comando es
-																// QUIT se
-																// prepara el
-																// mensaje de
-																// despedida y
-																// la condici�n
-																// de salida
+										// estados, si
+									// de salida
 							outputData = OK + SP + MSG_QUIT + CRLF;
 							salir = true;
 						} else if (comando.equalsIgnoreCase(USER) && parametro != null) {
@@ -115,7 +86,12 @@ public class Conexion implements Runnable, Protocolo {
 							salir = true;
 						} else if (comando.equals(PASS) && parametro != null) {
 							if (tempUser.compareTo(USERNAME) == 0 && parametro.compareTo(PASSWORD) == 0) {
-								outputData = OK + CRLF;
+                                                            
+                                                            String key=new String(java.util.Base64.getEncoder().encode(parametro.getBytes()));
+                                                            Date fecha = new Date(System.currentTimeMillis()+3600000);
+                                                            SimpleDateFormat dt1 = new SimpleDateFormat("yyyy-mm-dd-H-m-s");
+                                                            String expires = dt1.format(fecha);
+								outputData = "SESION-ID=SID"+tempUser+key+"&EXPIRES="+expires + CRLF;
 								estado++;// Como el usuario y clave coinciden se
 											// incrementa estado
 							} else {//Autenticaci�n err�nea
