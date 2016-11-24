@@ -7,6 +7,10 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 import java.net.SocketException;
 
+/**
+ * Para emplear sin el comportamiento de SESSION-ID
+ * @author Juan Carlos
+ */
 public class Conexion implements Runnable, Protocolo {
 
 	Socket mSocket;

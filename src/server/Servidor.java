@@ -32,12 +32,11 @@ public class Servidor implements Protocolo{
 			try {
 				nuevaConexion = mServidor.accept();// Se acepta una nueva
 				// conexi�n entrante
-				System.out.println("SERVIDOR> Conexi�n entrante desde " + nuevaConexion.getInetAddress().toString() + ":"
+				System.out.println("SERVIDOR> Conexión entrante desde " + nuevaConexion.getInetAddress().toString() + ":"
 						+ nuevaConexion.getPort());
-				//Conexion con = new Conexion(nuevaConexion);
-				//Thread servicio = new Thread(con);
-				//servicio.start();
-				new Thread(new Conexion(nuevaConexion)).start();// La nueva
+				
+				new Thread(new Autentica(nuevaConexion)).start();// El socket se pasa a la clase Autentica
+                                //para que sea tratada
 																// conexi�n se
 																// pasa a una
 																// nueva hebra
