@@ -89,7 +89,7 @@ public class Autentica implements Runnable, Protocolo {
                                                             
                                                             String key=new String(java.util.Base64.getEncoder().encode(parametro.getBytes()));
                                                             Date fecha = new Date(System.currentTimeMillis()+3600000);
-                                                            SimpleDateFormat dt1 = new SimpleDateFormat("yyyy-mm-dd-H-m-s");
+                                                            SimpleDateFormat dt1 = new SimpleDateFormat("yyyy-MM-dd-H-m-s");
                                                             String expires = dt1.format(fecha);
 								outputData = "SESION-ID=SID"+tempUser+key+"&EXPIRES="+expires + CRLF;
 								estado++;// Como el usuario y clave coinciden se
