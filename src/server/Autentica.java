@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 import java.net.SocketException;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -94,6 +96,14 @@ public class Autentica implements Runnable, Protocolo {
 								outputData = "SESION-ID=SID"+tempUser+key+"&EXPIRES="+expires + CRLF;
 								estado++;// Como el usuario y clave coinciden se
 											// incrementa estado
+                                                               /* Date date = new Date();
+                                                                
+                                                                try{
+                                                                date = dt1.parse(expires);
+                                                                long t=date.getTime();
+                                                                }catch(ParseException p){
+                                                                }
+                                                                */
 							} else {//Autenticaci�n err�nea
 								outputData = ERROR +SP +MSG_ERRORAUT+ CRLF;
 								estado = S_USER;
