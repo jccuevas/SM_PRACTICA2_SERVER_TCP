@@ -14,12 +14,13 @@ public class Servidor implements Protocolo{
 		try {
 			mConexiones=0;
 			InetAddress local = InetAddress.getLocalHost();
-			//InetAddress[] direcciones = InetAddress.getAllByName(local.getCanonicalHostName());
+			InetAddress[] direcciones = InetAddress.getAllByName(local.getCanonicalHostName());
 			
 			mServidor = new ServerSocket(TCP_SERVICE_PORT,20,local);// Se crea el socket
 														// servidor, equivale a
 														// socket(), bind() y listen()
-			//mServidor = new ServerSocket(TCP_SERVICE_PORT);// Se crea el socket
+			//int n=1;//Cambiar por el número de la interfaz que corresponda (depurar previamente)
+                        //mServidor = new ServerSocket(TCP_SERVICE_PORT,20,direcciones[n]);// Se crea el socket
                         
 			System.out.println("SERVIDOR> Esperando en: "+mServidor.getInetAddress().toString());
 			// socket(), bind() y listen()
