@@ -25,10 +25,9 @@ public class SessionManager {
         String expires=null;
         
         Date f= new Date();
-        TimeZone tz = TimeZone.getDefault();
-        long offset = tz.getOffset(f.getTime());
-        Date fecha = new Date(System.currentTimeMillis() + offset+SESSION_DURATION);
-        SimpleDateFormat dt1 = new SimpleDateFormat("yyyy-MM-dd-H-m-s");
+        TimeZone tz = TimeZone.getTimeZone("GMT+1");
+        Date fecha = new Date(f.getTime() + tz.getDSTSavings()+SESSION_DURATION);
+        SimpleDateFormat dt1 = new SimpleDateFormat("y-M-d-H-m-s");
         expires = dt1.format(fecha);
     
         return expires;
